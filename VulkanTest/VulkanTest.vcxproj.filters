@@ -1,102 +1,116 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Source Files">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    <Filter Include="__TEST__">
+      <UniqueIdentifier>{0fbcf14d-a3e9-443c-bcd6-a61d097afe04}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;hm;inl;inc;ipp;xsd</Extensions>
+    <Filter Include="__TEST__\Core">
+      <UniqueIdentifier>{c72caa37-6833-414a-b7dd-ea4bf8e4d111}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Resource Files">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    <Filter Include="__TEST__\Objects">
+      <UniqueIdentifier>{6e3c91fe-d46a-40c3-bf82-760465db4207}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="__TEST__\Rendering">
+      <UniqueIdentifier>{8bc8e03c-4b98-4f4e-86f4-19c01d64d97e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="__TEST__\Shaders">
+      <UniqueIdentifier>{74aa5acc-9d74-4f42-8dfd-f536e5a3584f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="THIRD_PARTY">
+      <UniqueIdentifier>{8f9cab0f-fd02-495e-a081-02c75b89e7c9}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="__Test__\Core\GraphicsDevice.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="__Test__\Core\SwapChain.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="__Test__\Core\Window.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="main.cpp">
+      <Filter>__TEST__</Filter>
     </ClCompile>
     <ClCompile Include="__Test__\Objects\Buffers.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="__Test__\Objects\Mesh.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="main.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>__TEST__\Objects</Filter>
     </ClCompile>
     <ClCompile Include="__Test__\Objects\Inputs.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>__TEST__\Objects</Filter>
     </ClCompile>
-    <ClCompile Include="__ThirdParty__\TinyObjLoader\tiny_obj_loader.cc">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="__Test__\Objects\Mesh.cpp">
+      <Filter>__TEST__\Objects</Filter>
     </ClCompile>
-    <ClCompile Include="__Test__\Rendering\RasterizedMesh.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="__Test__\Core\GraphicsDevice.cpp">
+      <Filter>__TEST__\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="__Test__\Core\SwapChain.cpp">
+      <Filter>__TEST__\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="__Test__\Core\Window.cpp">
+      <Filter>__TEST__\Core</Filter>
     </ClCompile>
     <ClCompile Include="__Test__\Rendering\RayTracedMesh.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>__TEST__\Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="__Test__\Rendering\RasterizedMesh.cpp">
+      <Filter>__TEST__\Rendering</Filter>
     </ClCompile>
     <ClCompile Include="__Test__\Rendering\Renderer.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>__TEST__\Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="__ThirdParty__\TinyObjLoader\tiny_obj_loader.cc">
+      <Filter>THIRD_PARTY</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="__Test__\Core\GraphicsDevice.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="__Test__\Core\SwapChain.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="__Test__\Core\Window.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="__Test__\Api.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="__Test__\Helpers.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="__Test__\Objects\Buffers.h">
-      <Filter>Header Files</Filter>
+      <Filter>__TEST__</Filter>
     </ClInclude>
     <ClInclude Include="__Test__\Objects\Mesh.h">
-      <Filter>Header Files</Filter>
+      <Filter>__TEST__\Objects</Filter>
     </ClInclude>
     <ClInclude Include="__Test__\Objects\Inputs.h">
-      <Filter>Header Files</Filter>
+      <Filter>__TEST__\Objects</Filter>
     </ClInclude>
-    <ClInclude Include="__ThirdParty__\TinyObjLoader\tiny_obj_loader.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="__Test__\Objects\Buffers.h">
+      <Filter>__TEST__\Objects</Filter>
     </ClInclude>
     <ClInclude Include="__Test__\Rendering\RayTracedMesh.h">
-      <Filter>Header Files</Filter>
+      <Filter>__TEST__\Rendering</Filter>
     </ClInclude>
     <ClInclude Include="__Test__\Rendering\RasterizedMesh.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="__Test__\Rendering\RenderObject.h">
-      <Filter>Header Files</Filter>
+      <Filter>__TEST__\Rendering</Filter>
     </ClInclude>
     <ClInclude Include="__Test__\Rendering\Renderer.h">
-      <Filter>Header Files</Filter>
+      <Filter>__TEST__\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="__Test__\Rendering\RenderObject.h">
+      <Filter>__TEST__\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="__Test__\Helpers.h">
+      <Filter>__TEST__</Filter>
+    </ClInclude>
+    <ClInclude Include="__Test__\Core\GraphicsDevice.h">
+      <Filter>__TEST__\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="__Test__\Core\SwapChain.h">
+      <Filter>__TEST__\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="__Test__\Core\Window.h">
+      <Filter>__TEST__\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="__ThirdParty__\TinyObjLoader\tiny_obj_loader.h">
+      <Filter>THIRD_PARTY</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="__Test__\Shaders\compile.bat">
-      <Filter>Source Files</Filter>
+    <None Include="__Test__\shaders\RasterizedDiffuse.frag">
+      <Filter>__TEST__\Shaders</Filter>
     </None>
-    <None Include="__Test__\shaders\RasterizedDiffuse.frag" />
-    <None Include="__Test__\Shaders\RasterizedDiffuse.vert" />
-    <None Include="__Test__\Shaders\RayTracedDiffuse.frag" />
-    <None Include="__Test__\Shaders\RayTracedDiffuse.vert" />
+    <None Include="__Test__\Shaders\RasterizedDiffuse.vert">
+      <Filter>__TEST__\Shaders</Filter>
+    </None>
+    <None Include="__Test__\Shaders\RayTracedDiffuse.frag">
+      <Filter>__TEST__\Shaders</Filter>
+    </None>
+    <None Include="__Test__\Shaders\RayTracedDiffuse.vert">
+      <Filter>__TEST__\Shaders</Filter>
+    </None>
+    <None Include="__Test__\Shaders\compile.bat">
+      <Filter>__TEST__\Shaders</Filter>
+    </None>
   </ItemGroup>
 </Project>
