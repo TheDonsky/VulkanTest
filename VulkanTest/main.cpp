@@ -110,7 +110,7 @@ int main() {
 	// Defining scene geometry by reading geometry from the file and appending the plane to it:
 	std::vector<Test::PNCVertex> vertices; 
 	std::vector<uint32_t> indices;
-	loadObj("unit-sphere.obj", vertices, indices, glm::vec3{1.0f, 1.0f, 1.0f}, log);
+	loadObj("__InputGeometry__/unit-sphere.obj", vertices, indices, glm::vec3{1.0f, 1.0f, 1.0f}, log);
 	// Appending the plane to the scene:
 	{
 		const std::vector<Test::PNCVertex> PLANE_VERTS = {

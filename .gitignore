@@ -15,3 +15,4 @@ xcshareddata
 
 !*.dll
 !*.lib
+!VulkanTest/__InputGeometry__/*
