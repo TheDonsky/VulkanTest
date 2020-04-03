@@ -1,0 +1,17 @@
+Debug/*
+VulkanTest/Debug/*
+Release/*
+VulkanTest/Release/*
+x64/*
+VulkanTest/x64/*
+*.sdf
+*.vcxproj.user
+*.VC.opendb
+*.vs
+
+xcuserdata
+*.xcworkspace
+xcshareddata
+
+
+
