@@ -13,5 +13,5 @@ xcuserdata
 *.xcworkspace
 xcshareddata
 
-
-
+!*.dll
+!*.lib
