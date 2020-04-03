@@ -132,7 +132,7 @@ namespace Test {
 
 	VkSurfaceKHR Window::createSurface(VkInstance instance) {
 		std::unique_lock<std::mutex> lock(m_windowLock);
-		if (closed()) return nullptr;
+		if (closed()) return VK_NULL_HANDLE;
 		VkSurfaceKHR surface;
 		if (glfwCreateWindowSurface(instance, m_window, nullptr, &surface) != VK_SUCCESS)
 			return VK_NULL_HANDLE;
