@@ -14,7 +14,7 @@ namespace Test {
 	 *	2. Fragment shaders get unnormalized rays as input, as well as storage buffers for vertex and index data of the geometry;
 	 *	3. Ray is cast into the void, hitting some triangle, that's then shaded (of course, we are casting an additional ray to understand, if the surface can even be reached);
 	 *	4. We write some other color wherever we missed the geometry altogather (actually, We're filling with some color tinted gradient, that I initially used to make sure the fragments were casting rays in the right direction and than I decided it looked cool);
-	 *	5. After all this hard work, we have a ray-traced image and a terrible performance, when we are not using any accelerating data structures and/or hardware solutons.
+	 *	5. After all this hard work, we have a ray-traced image and a terrible performance, when we are not using any accelerating data structures and/or hardware solutons (VoxelGrid helps, really).
 	 */
 	class RayTracedMesh : public IRenderObject {
 	public:

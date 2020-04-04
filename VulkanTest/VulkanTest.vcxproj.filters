@@ -54,7 +54,9 @@
     <ClCompile Include="__ThirdParty__\TinyObjLoader\tiny_obj_loader.cc">
       <Filter>THIRD_PARTY</Filter>
     </ClCompile>
-    <ClCompile Include="__Test__\Objects\VoxelGrid.cpp" />
+    <ClCompile Include="__Test__\Objects\VoxelGrid.cpp">
+      <Filter>__TEST__\Objects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="__Test__\Api.h">
@@ -96,7 +98,9 @@
     <ClInclude Include="__ThirdParty__\TinyObjLoader\tiny_obj_loader.h">
       <Filter>THIRD_PARTY</Filter>
     </ClInclude>
-    <ClInclude Include="__Test__\Objects\VoxelGrid.h" />
+    <ClInclude Include="__Test__\Objects\VoxelGrid.h">
+      <Filter>__TEST__\Objects</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="__Test__\shaders\RasterizedDiffuse.frag">
