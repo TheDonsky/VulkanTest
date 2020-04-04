@@ -161,7 +161,7 @@ int main() {
 
 	// Renderer for voxelized ray-traced mode:
 	std::shared_ptr<Test::Renderer> voxelizedRayTraced(new Test::Renderer(device, swapChain, voxelizedRayTracedMesh, log));
-	if (!rayTraced->initialized()) return 10;
+	if (!voxelizedRayTraced->initialized()) return 10;
 
 	// RenderLoop just makes sure, the image render commands are issued from correct renderers:
 	RenderLoop loop(swapChain, transform, rasterized, rayTraced, voxelizedRayTraced);
