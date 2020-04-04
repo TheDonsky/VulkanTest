@@ -36,8 +36,9 @@ namespace {
 namespace Test {
 	RayTracedMesh::RayTracedMesh(const std::shared_ptr<Mesh>& mesh,
 		const std::shared_ptr<VPTransform>& transform, const std::shared_ptr<PointLight>& light,
+		const std::shared_ptr<VoxelGrid>& voxelGrid,
 		void(*logFn)(const char*)) 
-		: m_mesh(mesh), m_vpTransform(transform), m_light(light)
+		: m_mesh(mesh), m_vpTransform(transform), m_light(light), m_voxelGrid(voxelGrid)
 		, m_vertexBuffer(m_mesh->device(), static_cast<uint32_t>(VERTEX_BUFFER.size()), VERTEX_BUFFER.data(), logFn)
 		, m_indexBuffer(m_mesh->device(), static_cast<uint32_t>(INDEX_BUFFER.size()), INDEX_BUFFER.data(), logFn)
 		, m_inverseTransformBuffer(m_mesh->device(), nullptr, logFn)
@@ -46,7 +47,7 @@ namespace Test {
 			m_vpTransformBufferInfo = {};
 			m_vpTransformBufferInfo.buffer = m_inverseTransformBuffer.stagingBuffer();
 			m_vpTransformBufferInfo.offset = 0;
-			m_vpTransformBufferInfo.range = sizeof(VPTransform);
+			m_vpTransformBufferInfo.range = VK_WHOLE_SIZE;
 		}
 		{
 			m_vertexBufferInfo = {};
@@ -66,6 +67,26 @@ namespace Test {
 			m_lightBufferInfo.offset = 0;
 			m_lightBufferInfo.range = sizeof(PointLight);
 		}
+		{
+			m_voxelSettingsInfo = m_voxelGridInfo = m_voxelEntryInfo = {};
+			if (m_voxelGrid != nullptr) {
+				{
+					m_voxelSettingsInfo.buffer = m_voxelGrid->settings.stagingBuffer();
+					m_voxelSettingsInfo.offset = 0;
+					m_voxelSettingsInfo.range = VK_WHOLE_SIZE;
+				}
+				{
+					m_voxelGridInfo.buffer = m_voxelGrid->voxels.buffer();
+					m_voxelGridInfo.offset = 0;
+					m_voxelGridInfo.range = VK_WHOLE_SIZE;
+				}
+				{
+					m_voxelEntryInfo.buffer = m_voxelGrid->entries.buffer();
+					m_voxelEntryInfo.offset = 0;
+					m_voxelEntryInfo.range = VK_WHOLE_SIZE;
+				}
+			}
+		}
 	}
 
 	RayTracedMesh::~RayTracedMesh() { }
@@ -82,8 +103,9 @@ namespace Test {
 	}
 
 	const char* RayTracedMesh::fragmentShader() {
-		static const char SHADER[] = "__Test__/Shaders//RayTracedDiffuseFrag.spv";
-		return SHADER;
+		static const char SHADER[] = "__Test__/Shaders/RayTracedDiffuseFrag.spv";
+		static const char SAHDER_WITH_VOXEL_GRID[] = "__Test__/Shaders/RayTracedDiffuseFragVox.spv";
+		return m_voxelGrid == nullptr ? SHADER : SAHDER_WITH_VOXEL_GRID;
 	}
 
 	VkPipelineVertexInputStateCreateInfo RayTracedMesh::vertexInputInfo() {
@@ -113,7 +135,7 @@ namespace Test {
 	}
 
 	uint32_t RayTracedMesh::numLayoutBindings() {
-		return 4;
+		return m_voxelGrid == nullptr ? 4 : 7;
 	}
 
 	VkDescriptorSetLayoutBinding RayTracedMesh::layoutBinding(uint32_t index) {
@@ -125,11 +147,11 @@ namespace Test {
 			binding.descriptorType = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
 			binding.stageFlags = VK_SHADER_STAGE_VERTEX_BIT;
 		}
-		else if (index == 1 || index == 2) {
+		else if (index == 1 || index == 2 || index == 5 || index == 6) {
 			binding.descriptorType = VK_DESCRIPTOR_TYPE_STORAGE_BUFFER;
 			binding.stageFlags = VK_SHADER_STAGE_FRAGMENT_BIT;
 		}
-		else if (index == 3) {
+		else if (index == 3 || index == 4) {
 			binding.descriptorType = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
 			binding.stageFlags = VK_SHADER_STAGE_FRAGMENT_BIT;
 		}
@@ -158,6 +180,18 @@ namespace Test {
 		else if (index == 3) {
 			binding.descriptorType = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
 			binding.pBufferInfo = &m_lightBufferInfo;
+		}
+		else if (index == 4) {
+			binding.descriptorType = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
+			binding.pBufferInfo = &m_voxelSettingsInfo;
+		}
+		else if (index == 5) {
+			binding.descriptorType = VK_DESCRIPTOR_TYPE_STORAGE_BUFFER;
+			binding.pBufferInfo = &m_voxelGridInfo;
+		}
+		else if (index == 6) {
+			binding.descriptorType = VK_DESCRIPTOR_TYPE_STORAGE_BUFFER;
+			binding.pBufferInfo = &m_voxelEntryInfo;
 		}
 		return binding;
 	}

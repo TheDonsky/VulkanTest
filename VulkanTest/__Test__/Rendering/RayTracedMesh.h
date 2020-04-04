@@ -1,6 +1,7 @@
 #pragma once
 #include "RenderObject.h"
 #include "../Objects/Mesh.h"
+#include "../Objects/VoxelGrid.h"
 
 namespace Test {
 	/**
@@ -12,8 +13,8 @@ namespace Test {
 	 *	1. Vertex shader passes vertex buffer to gl_Position without modification, but also applies an inverse transformation to it to get incomming ray direction for all corners;
 	 *	2. Fragment shaders get unnormalized rays as input, as well as storage buffers for vertex and index data of the geometry;
 	 *	3. Ray is cast into the void, hitting some triangle, that's then shaded (of course, we are casting an additional ray to understand, if the surface can even be reached);
-	 *	4. We write some other color wherever we missed the geometry altogather (actually, We're filling with some bluish-white gradient, that I initially used to make sure the fragments were casting rays in the right direction and than I decided it looked cool);
-	 *	5. After all this hard work, we have a ray-traced image and a terrible performance, since we are not using any accelerating data structures and/or hardware solutons.
+	 *	4. We write some other color wherever we missed the geometry altogather (actually, We're filling with some color tinted gradient, that I initially used to make sure the fragments were casting rays in the right direction and than I decided it looked cool);
+	 *	5. After all this hard work, we have a ray-traced image and a terrible performance, when we are not using any accelerating data structures and/or hardware solutons.
 	 */
 	class RayTracedMesh : public IRenderObject {
 	public:
@@ -22,10 +23,12 @@ namespace Test {
 		@param mesh Scene geometry.
 		@param transform Reference to the View-Projection transformation.
 		@param light Information about scene lighing.
+		@param voxelGrid Voxel grid for acceleration.
 		@param logFn Logging function for error reporting (optional).
 		*/
 		RayTracedMesh(const std::shared_ptr<Mesh>& mesh,
 			const std::shared_ptr<VPTransform>& transform, const std::shared_ptr<PointLight>& light,
+			const std::shared_ptr<VoxelGrid>& voxelGrid = nullptr,
 			void(*logFn)(const char*) = nullptr);
 
 		/** Destructor */
@@ -60,6 +63,7 @@ namespace Test {
 		const std::shared_ptr<Mesh> m_mesh;
 		const std::shared_ptr<VPTransform> m_vpTransform;
 		const std::shared_ptr<PointLight> m_light;
+		const std::shared_ptr<VoxelGrid>& m_voxelGrid;
 
 		VertexBuffer<glm::vec3> m_vertexBuffer;
 		IndexBuffer m_indexBuffer;
@@ -70,6 +74,10 @@ namespace Test {
 		VkDescriptorBufferInfo m_vertexBufferInfo;
 		VkDescriptorBufferInfo m_indexBufferInfo;
 		VkDescriptorBufferInfo m_lightBufferInfo;
+
+		VkDescriptorBufferInfo m_voxelSettingsInfo;
+		VkDescriptorBufferInfo m_voxelGridInfo;
+		VkDescriptorBufferInfo m_voxelEntryInfo;
 	};
 }
 

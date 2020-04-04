@@ -86,7 +86,7 @@ namespace {
 			// Switching the renderer if space was pressed (RT mode is slow enough for the system to be less responsive than desirable, 
 			// so you may need to hold it for for a few seconds to switch back to rasterized mode):
 			if (window->spaceTapped())
-				rendererId = (rendererId + 1) % m_renderers.size();
+				rendererId = (rendererId + 1) % static_cast<uint32_t>(m_renderers.size());
 		}
 	};
 }
@@ -132,7 +132,8 @@ int main() {
 
 	// Mesh for holding the scene geometry on the graphics processor memory:
 	std::shared_ptr<Test::Mesh> mesh(new Test::Mesh(device, vertices, indices, log));
-	if (!mesh->initialized()) return 4;
+	std::shared_ptr<Test::VoxelGrid> voxelGrid(new Test::VoxelGrid(device, vertices, indices, glm::uvec3{ 32, 32, 32 }, log));
+	if (!(mesh->initialized() && voxelGrid->initialized())) return 4;
 
 	// View-Projection transform that acts as our camera:
 	std::shared_ptr<Test::VPTransform> transform(new Test::VPTransform());
@@ -143,19 +144,27 @@ int main() {
 	if (!rasterizedMesh->initialized()) return 5;
 
 	// Target Object for ray-traced mode:
-	std::shared_ptr<Test::IRenderObject> rayTracedMesh(new Test::RayTracedMesh(mesh, transform, light, log));
-	if (!rayTracedMesh->initialized()) return 5;
+	std::shared_ptr<Test::IRenderObject> rayTracedMesh(new Test::RayTracedMesh(mesh, transform, light, nullptr, log));
+	if (!rayTracedMesh->initialized()) return 6;
+
+	// Target Object for voxelized ray-traced mode:
+	std::shared_ptr<Test::IRenderObject> voxelizedRayTracedMesh(new Test::RayTracedMesh(mesh, transform, light, voxelGrid, log));
+	if (!rayTracedMesh->initialized()) return 7;
 
 	// Renderer for rasterized mode:
 	std::shared_ptr<Test::Renderer> rasterized(new Test::Renderer(device, swapChain, rasterizedMesh, log));
-	if (!rasterized->initialized()) return 6;
+	if (!rasterized->initialized()) return 8;
 
 	// Renderer for ray-traced mode:
 	std::shared_ptr<Test::Renderer> rayTraced(new Test::Renderer(device, swapChain, rayTracedMesh, log));
-	if (!rayTraced->initialized()) return 7;
+	if (!rayTraced->initialized()) return 9;
+
+	// Renderer for voxelized ray-traced mode:
+	std::shared_ptr<Test::Renderer> voxelizedRayTraced(new Test::Renderer(device, swapChain, voxelizedRayTracedMesh, log));
+	if (!rayTraced->initialized()) return 10;
 
 	// RenderLoop just makes sure, the image render commands are issued from correct renderers:
-	RenderLoop loop(swapChain, transform, rasterized, rayTraced);
+	RenderLoop loop(swapChain, transform, rasterized, rayTraced, voxelizedRayTraced);
 	Test::Window::RenderLoopEventId eventId = window->addRenderLoopEvent(std::bind(&RenderLoop::renderLoopEvent, &loop, std::placeholders::_1));
 
 	// In case something fails, window is configured to closed automatically, so we have to wait here:

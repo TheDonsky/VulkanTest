@@ -155,6 +155,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="__Test__\Objects\VoxelGrid.cpp" />
     <ClCompile Include="__Test__\Rendering\RayTracedMesh.cpp" />
     <ClCompile Include="__Test__\Objects\Inputs.cpp" />
     <ClCompile Include="__Test__\Objects\Mesh.cpp" />
@@ -168,6 +169,7 @@
     <ClCompile Include="__ThirdParty__\TinyObjLoader\tiny_obj_loader.cc" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="__Test__\Objects\VoxelGrid.h" />
     <ClInclude Include="__Test__\Rendering\RayTracedMesh.h" />
     <ClInclude Include="__Test__\Objects\Inputs.h" />
     <ClInclude Include="__Test__\Objects\Mesh.h" />
