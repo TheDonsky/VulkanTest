@@ -114,8 +114,6 @@ namespace {
 #define NO_VOXEL_ENTRY (~((Test::VoxelGrid::VoxelData::VoxelEntryId)0))
 }
 
-#include <iostream>
-
 namespace Test {
 	VoxelGrid::VoxelData::VoxelData(const std::vector<PNCVertex>& verts, const std::vector<uint32_t> indexBuffer, const glm::uvec3& numDivisions) {
 		{
@@ -170,10 +168,6 @@ namespace Test {
 						}
 					}
 		}
-		size_t empties = 0;
-		for (size_t i = 0; i < voxels.size(); i++)
-			if (voxels[i] == NO_VOXEL_ENTRY) empties++;
-		std::cout << "EMPTIES: " << empties << " {out of " << voxels.size() << "; ei " << (((float)empties) / voxels.size()) << "}" << std::endl;
 	}
 
 	VoxelGrid::VoxelGrid(const std::shared_ptr<GraphicsDevice>& device, const VoxelData& data, void(*logFn)(const char*)) 
