@@ -1,6 +1,9 @@
 #version 450
 #extension GL_ARB_separate_shader_objects : enable
 
+// Enable this to display voxel grid as well:
+//#define SHOW_DEBUG_VOXELS
+
 /** ########################################################################################################### */
 /** TYPE DEFINITIONS: */
 struct PNCVertex {
@@ -177,7 +180,7 @@ bool findFirstCell(in Ray ray, out uvec3 cellId, out vec3 point) {
 	if (mn > mx + 0.0001f) return false;
 	else if (mn < 0.0f) mn = 0.0f;
 	point = (ray.origin + (mn * ray.direction));
-	//*
+	// To make sure, point is exactly inside the box and avoid random erros caused by floating point calculations:
 	{
 		if (point.x < fullBox.start.x) point.x = fullBox.start.x;
 		if (point.y < fullBox.start.y) point.y = fullBox.start.y;
@@ -187,7 +190,6 @@ bool findFirstCell(in Ray ray, out uvec3 cellId, out vec3 point) {
 		if (point.y > fullBox.end.y) point.y = fullBox.end.y;
 		if (point.z > fullBox.end.z) point.z = fullBox.end.z;
 	}
-	//*/
 	cellId = uvec3((point - voxelSettings.gridStart) / cellSize());
 	return true;
 }
@@ -254,6 +256,9 @@ bool castInCell(in Ray ray, in uvec3 cellId, in AABB cell, out Triangle triangle
 	vec3 point = vec3(0.0f, 0.0f, 0.0f);
 	uint entryId = voxelGrid[((voxelSettings.numDivisions.x * ((cellId.z * voxelSettings.numDivisions.y) + cellId.y)) + cellId.x)];
 	while (entryId != NO_ENTRY) {
+#ifdef SHOW_DEBUG_VOXELS
+		outColor.r = min(outColor.r + 0.1f, 1.0f);
+#endif
 		const VoxelEntry entry = voxelEntry[entryId];
 		PosTriangle tri;
 		tri.a = vertex[index[entry.triangle]].position;
@@ -299,6 +304,9 @@ bool raycast(in Ray ray, out Triangle triangle, out float distance, out vec3 hit
 	while (true) {
 		if (castInCell(ray, cellId, cell, triangle, distance, hitPoint)) return true;
 		else if (!findNextCell(invRay, ray.direction, cellSz, cell, cellId)) return false;
+#ifdef SHOW_DEBUG_VOXELS
+		outColor.g += 1.0f / float(voxelSettings.numDivisions.x + voxelSettings.numDivisions.y + voxelSettings.numDivisions.z);
+#endif
 	}
 }
 
@@ -339,6 +347,10 @@ vec4 shade(in vec3 worldPos, in vec3 fragNormal, in vec3 pixelColor) {
 /** ########################################################################################################### */
 /** ENTRY POINT: */
 void main() {
+#ifdef SHOW_DEBUG_VOXELS
+	outColor = vec4(0.0f, 0.0f, 0.0f, 1.0f);
+#endif
+
 	Ray ray;
 	ray.origin = rayOrigin;
 	ray.direction = normalize(rawRayDirection);
@@ -354,9 +366,11 @@ void main() {
 		vec3 pixelColor = ((triangle.a.color * masses.x) + (triangle.b.color * masses.y) + (triangle.c.color * masses.z));
 		outColor = shade(hitPoint, fragNormal, pixelColor);
 	}
+#ifndef SHOW_DEBUG_VOXELS
 	else {
 		float centerCloseness = dot(ray.direction, vectorToCenter);
 		centerCloseness = pow(centerCloseness, 16);
 		outColor = vec4(1.0f, centerCloseness, centerCloseness, 1.0f);
 	}
+#endif
 }
